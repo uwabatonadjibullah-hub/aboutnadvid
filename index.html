@@ -21,17 +21,10 @@
                     },
                     colors: {
                         zinc: {
-                            50: '#fafafa',
-                            100: '#f4f4f5',
-                            200: '#e4e4e7',
-                            300: '#d4d4d8',
-                            400: '#a1a1aa',
-                            500: '#71717a',
-                            600: '#52525b',
-                            700: '#3f3f46',
-                            800: '#27272a',
-                            900: '#18181b',
-                            950: '#09090b',
+                            50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7',
+                            300: '#d4d4d8', 400: '#a1a1aa', 500: '#71717a',
+                            600: '#52525b', 700: '#3f3f46', 800: '#27272a',
+                            900: '#18181b', 950: '#09090b',
                         },
                         amber: {
                             500: '#f59e0b',
@@ -51,9 +44,28 @@
             background-color: #f59e0b; /* amber-500 */
             color: #000000;
         }
+        /* Cinematic Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Modal Transitions */
+        .modal-enter { opacity: 0; transform: scale(0.95); transition: all 0.3s ease-out; }
+        .modal-enter-active { opacity: 1; transform: scale(1); }
+        .modal-exit { opacity: 1; transform: scale(1); transition: all 0.2s ease-in; }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); pointer-events: none; }
     </style>
 </head>
 <body class="bg-black text-zinc-300 font-sans antialiased overflow-x-hidden">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full text-sm font-semibold z-[150] transition-all duration-300 opacity-0 translate-y-10 pointer-events-none"></div>
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-6">
@@ -73,11 +85,9 @@
     <!-- Hero Section -->
     <section class="relative h-screen flex flex-col justify-center items-center text-center px-4 overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-zinc-900/20 to-black z-0"></div>
-        
-        <!-- Cinematic Grid Background -->
         <div class="absolute inset-0 bg-stardust opacity-20"></div>
 
-        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center reveal active">
             <h2 class="text-amber-500 uppercase tracking-[0.3em] text-sm md:text-base font-semibold mb-4 drop-shadow-lg">
                 Nadjibullah Uwabato
             </h2>
@@ -100,7 +110,7 @@
 
     <!-- About & Experience Section -->
     <section id="about" class="py-24 bg-zinc-950 relative border-t border-zinc-900">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-7xl mx-auto px-6 reveal">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
                     <h3 class="text-amber-500 uppercase tracking-[0.2em] text-sm font-semibold mb-2">The Director</h3>
@@ -108,7 +118,7 @@
                     <p class="text-zinc-400 text-lg mb-6 leading-relaxed">
                         I am <strong class="text-white">Nadjibullah Uwabato (IAM NAD)</strong>, the Founder of NAD PRODUCTION. My core passion lies in translating raw emotion and complex narratives into breathtaking visual experiences through filmmaking and video production.
                     </p>
-                    <div class="bg-black/50 border border-zinc-800 rounded-2xl p-6 mb-6">
+                    <div class="bg-black/50 border border-zinc-800 rounded-2xl p-6 mb-6 group hover:border-amber-500/30 transition-colors">
                         <div class="flex items-start space-x-4">
                             <div class="bg-amber-500/10 p-3 rounded-lg text-amber-500 mt-1">
                                 <i data-lucide="award" class="w-6 h-6"></i>
@@ -126,11 +136,11 @@
                     </p>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-zinc-900 aspect-square rounded-2xl flex flex-col justify-center items-center p-6 border border-zinc-800 hover:border-zinc-700 transition-colors">
+                    <div class="bg-zinc-900 aspect-square rounded-2xl flex flex-col justify-center items-center p-6 border border-zinc-800 hover:border-amber-500 transition-colors">
                         <i data-lucide="film" class="w-12 h-12 text-zinc-400 mb-4"></i>
                         <h4 class="text-white font-bold uppercase tracking-wider text-sm text-center">Cinematography</h4>
                     </div>
-                    <div class="bg-zinc-900 aspect-square rounded-2xl flex flex-col justify-center items-center p-6 border border-zinc-800 hover:border-zinc-700 transition-colors translate-y-8">
+                    <div class="bg-zinc-900 aspect-square rounded-2xl flex flex-col justify-center items-center p-6 border border-zinc-800 hover:border-amber-500 transition-colors translate-y-8">
                         <i data-lucide="monitor-play" class="w-12 h-12 text-zinc-400 mb-4"></i>
                         <h4 class="text-white font-bold uppercase tracking-wider text-sm text-center">Post-Production</h4>
                     </div>
@@ -139,185 +149,73 @@
         </div>
     </section>
 
-    <!-- Selected Works (Portfolio) -->
+    <!-- Selected Works (Dynamic Portfolio) -->
     <section id="work" class="py-32 bg-black relative">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="mb-16 md:flex justify-between items-end">
+        <div class="max-w-7xl mx-auto px-6 reveal">
+            <div class="mb-12 md:flex justify-between items-end">
                 <div>
                     <h3 class="text-amber-500 uppercase tracking-[0.2em] text-sm font-semibold mb-2">Director's Cut</h3>
                     <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight">Selected Works</h2>
                 </div>
                 <p class="text-zinc-500 max-w-md mt-4 md:mt-0 text-sm">
-                    A curated selection of short films, visual essays, and experimental AI cinema showcasing my narrative style and technical capabilities.
+                    A curated selection of films, websites, and creative digital experiences showcasing my narrative style and technical capabilities.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
-                <!-- Project 1: GAJU -->
-                <div class="group flex flex-col bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-amber-500/50 transition-all duration-500">
-                    <div class="relative aspect-video bg-black w-full">
-                        <iframe 
-                            class="w-full h-full absolute inset-0"
-                            src="https://www.youtube.com/embed/NDJEDBjhucM?start=258" 
-                            title="GAJU - Short Film"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-white mb-1">GAJU</h3>
-                                <p class="text-amber-500 text-sm font-semibold tracking-wider uppercase">Micro-Budget Short Film ($15)</p>
-                            </div>
-                        </div>
-                        <p class="text-zinc-400 text-sm leading-relaxed">
-                            A testament to storytelling over budget. Shot and produced on a strict $15 budget, this film highlights creative framing, resourceful lighting, and compelling narrative pacing.
-                        </p>
-                    </div>
-                </div>
+            <!-- Categories -->
+            <div class="flex flex-wrap gap-3 mb-12" id="category-filters">
+                <button class="filter-btn active px-5 py-2 rounded-full border border-amber-500 bg-amber-500 text-black text-xs font-bold tracking-widest uppercase transition-all" data-category="ALL">All</button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-zinc-700 text-white hover:border-amber-500 text-xs font-bold tracking-widest uppercase transition-all" data-category="VIDEO">Video & AI Film</button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-zinc-700 text-white hover:border-amber-500 text-xs font-bold tracking-widest uppercase transition-all" data-category="WEBSITE">Website & Graphic</button>
+            </div>
 
-                <!-- Project 2: THE VOICE -->
-                <div class="group flex flex-col bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-amber-500/50 transition-all duration-500">
-                    <div class="relative aspect-video bg-black w-full">
-                        <iframe 
-                            class="w-full h-full absolute inset-0"
-                            src="https://www.youtube.com/embed/oHXFsr8BbK0" 
-                            title="THE VOICE - Short Film"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-white mb-1">THE VOICE</h3>
-                                <p class="text-amber-500 text-sm font-semibold tracking-wider uppercase">Micro-Budget Short Film ($7)</p>
-                            </div>
-                        </div>
-                        <p class="text-zinc-400 text-sm leading-relaxed">
-                            An intense exercise in minimalism and audio-driven storytelling. Created with only $7, proving that profound cinematic tension can be built through editing and sound design alone.
-                        </p>
-                    </div>
+            <!-- Projects Grid (Injected via JS) -->
+            <div id="projects-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[400px]">
+                <!-- Loading State -->
+                <div class="col-span-full flex justify-center items-center h-40">
+                    <i data-lucide="loader-2" class="w-8 h-8 text-amber-500 animate-spin"></i>
                 </div>
-
-                <!-- Project 3: Glimpse of Africa -->
-                <div class="group flex flex-col bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-amber-500/50 transition-all duration-500">
-                    <div class="relative aspect-video bg-black w-full">
-                        <iframe 
-                            class="w-full h-full absolute inset-0"
-                            src="https://www.youtube.com/embed/hQONtXCD1us" 
-                            title="The Glimpse of Africa"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-white mb-1">The Glimpse of Africa</h3>
-                                <p class="text-amber-500 text-sm font-semibold tracking-wider uppercase">Montage & Editing Showcase</p>
-                            </div>
-                        </div>
-                        <p class="text-zinc-400 text-sm leading-relaxed">
-                            A high-energy, visually stunning montage capturing the beauty of Africa. This project highlights my advanced editing techniques, color grading, and rhythmic cutting to music.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Project 4: THE HITMAN (AI Film Trailer with Custom Thumbnail) -->
-                <div class="group flex flex-col bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-amber-500/50 transition-all duration-500">
-                    <!-- Custom YouTube-Style Preview for Google Drive Link -->
-                    <a href="https://drive.google.com/file/d/1ovf7yTEJKBQYCocPBdjzPRAzGTZx8iXd/view?usp=sharing" target="_blank" class="relative aspect-video bg-black w-full block group/vid overflow-hidden">
-                        <img 
-                            src="https://i.postimg.cc/JzKjvc0Y/Gemini-Generated-Image-p44y0rp44y0rp44y.png" 
-                            alt="THE HITMAN Trailer Thumbnail" 
-                            class="w-full h-full object-cover opacity-80 group-hover/vid:opacity-100 group-hover/vid:scale-105 transition-all duration-700"
-                        >
-                        <!-- Play Button Overlay -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="bg-amber-500/90 w-16 h-16 rounded-full flex items-center justify-center text-black transform scale-90 group-hover/vid:scale-110 shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-all duration-300">
-                                <i data-lucide="play" class="w-8 h-8 ml-1 fill-current"></i>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-white mb-1">THE HITMAN</h3>
-                                <p class="text-amber-500 text-sm font-semibold tracking-wider uppercase">Experimental AI Film Trailer</p>
-                            </div>
-                            <a href="https://drive.google.com/file/d/1ovf7yTEJKBQYCocPBdjzPRAzGTZx8iXd/view?usp=sharing" target="_blank" rel="noreferrer" class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
-                                <i data-lucide="external-link" class="w-4 h-4 text-white"></i>
-                            </a>
-                        </div>
-                        <p class="text-zinc-400 text-sm leading-relaxed">
-                            A sneak peek into my upcoming AI-generated film, <strong>THE HITMAN</strong>. This trailer demonstrates my visionary approach to videography, utilizing advanced prompt engineering, precise cinematic framing, and digital direction.
-                        </p>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
     <!-- Multidisciplinary Expertise -->
     <section id="expertise" class="py-24 bg-zinc-950 border-t border-b border-zinc-900">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-7xl mx-auto px-6 reveal">
             <div class="text-center mb-16">
                 <h3 class="text-amber-500 uppercase tracking-[0.2em] text-sm font-semibold mb-2">Beyond the Lens</h3>
                 <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">A Multidisciplinary Creator</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
                 <div class="bg-black p-8 rounded-2xl border border-zinc-800 hover:border-amber-500/50 transition-colors group">
                     <i data-lucide="video" class="w-10 h-10 text-zinc-500 group-hover:text-amber-500 mb-6 transition-colors"></i>
                     <h4 class="text-xl font-bold text-white mb-3">Videography</h4>
-                    <p class="text-zinc-500 text-sm">
-                        Directing, shooting, and editing cinematic visuals. Trained at KSP Rwanda with a focus on lighting, framing, and emotional resonance.
-                    </p>
+                    <p class="text-zinc-500 text-sm">Directing, shooting, and editing cinematic visuals. Trained at KSP Rwanda with a focus on lighting, framing, and emotion.</p>
                 </div>
-
                 <div class="bg-black p-8 rounded-2xl border border-zinc-800 hover:border-amber-500/50 transition-colors group">
                     <i data-lucide="pen-tool" class="w-10 h-10 text-zinc-500 group-hover:text-amber-500 mb-6 transition-colors"></i>
                     <h4 class="text-xl font-bold text-white mb-3">Graphic Design</h4>
-                    <p class="text-zinc-500 text-sm">
-                        Crafting compelling visual identities, movie posters, and digital marketing assets through NAD PRODUCTION.
-                    </p>
+                    <p class="text-zinc-500 text-sm">Crafting compelling visual identities, movie posters, and digital marketing assets through NAD PRODUCTION.</p>
                 </div>
-
                 <div class="bg-black p-8 rounded-2xl border border-zinc-800 hover:border-amber-500/50 transition-colors group">
                     <i data-lucide="code-2" class="w-10 h-10 text-zinc-500 group-hover:text-amber-500 mb-6 transition-colors"></i>
                     <h4 class="text-xl font-bold text-white mb-3">Web Development</h4>
-                    <p class="text-zinc-500 text-sm">
-                        Building immersive digital experiences and platforms that serve as the perfect canvas for visual storytelling.
-                    </p>
+                    <p class="text-zinc-500 text-sm">Building immersive digital experiences and platforms that serve as the perfect canvas for visual storytelling.</p>
                 </div>
-
                 <div class="bg-black p-8 rounded-2xl border border-zinc-800 hover:border-amber-500/50 transition-colors group">
                     <i data-lucide="cpu" class="w-10 h-10 text-zinc-500 group-hover:text-amber-500 mb-6 transition-colors"></i>
                     <h4 class="text-xl font-bold text-white mb-3">Engineering</h4>
-                    <p class="text-zinc-500 text-sm">
-                        Mechanical Engineering graduate (2026). Integrating robotics and AI logic into practical problem solving and generative art.
-                    </p>
+                    <p class="text-zinc-500 text-sm">Mechanical Engineering graduate (2026). Integrating robotics and AI logic into practical problem solving.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
     <!-- Footer / Contact -->
     <footer id="contact" class="bg-black py-20 relative overflow-hidden">
-        <!-- Subtle glow effect -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center reveal">
             <h2 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-8">
                 Ready to <span class="text-amber-500">Create?</span>
             </h2>
@@ -345,39 +243,515 @@
                     <i data-lucide="twitter" class="w-6 h-6"></i>
                     <span class="sr-only">X (Twitter)</span>
                 </a>
-                <a href="mailto:nadjibullahu@gmail.com" class="text-zinc-500 hover:text-white hover:-translate-y-1 transition-all">
-                    <i data-lucide="mail" class="w-6 h-6"></i>
-                    <span class="sr-only">Email</span>
-                </a>
-                <a href="https://wa.me/250786487234" target="_blank" rel="noreferrer" class="text-zinc-500 hover:text-white hover:-translate-y-1 transition-all">
-                    <i data-lucide="message-circle" class="w-6 h-6"></i>
-                    <span class="sr-only">WhatsApp</span>
-                </a>
             </div>
-            
             <p class="text-zinc-600 text-sm mt-12 uppercase tracking-widest">
                 © <span id="year"></span> NAD PRODUCTION. All rights reserved.
             </p>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+    <!-- Floating Studio Button -->
+    <button id="open-studio-btn" class="fixed bottom-6 right-6 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-black shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-110 hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-all z-40">
+        <i data-lucide="plus" class="w-6 h-6"></i>
+    </button>
 
-        // Set Current Year in Footer
+    <!-- IN-APP CINEMATIC PREVIEW MODAL -->
+    <div id="preview-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" id="preview-backdrop"></div>
+        <button id="close-preview-btn" class="absolute top-6 right-6 text-white hover:text-amber-500 z-50 transition-colors p-2">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="relative z-10 w-full h-full p-4 md:p-12 flex flex-col items-center justify-center">
+            <h3 id="preview-title" class="text-2xl font-bold text-white mb-6 uppercase tracking-widest text-center w-full"></h3>
+            <div class="w-full max-w-6xl aspect-video bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 shadow-2xl relative">
+                <!-- Loader -->
+                <div class="absolute inset-0 flex justify-center items-center z-0">
+                    <i data-lucide="loader-2" class="w-10 h-10 text-zinc-600 animate-spin"></i>
+                </div>
+                <!-- Iframe injected here -->
+                <iframe id="preview-iframe" class="w-full h-full relative z-10" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div>
+            <a id="preview-external-link" href="#" target="_blank" class="mt-8 flex items-center space-x-2 text-zinc-400 hover:text-amber-500 transition-colors">
+                <span class="text-sm font-semibold uppercase tracking-widest">Open in New Tab</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="login-backdrop"></div>
+        <div class="relative z-10 w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-2xl p-8 shadow-2xl modal-enter" id="login-box">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white tracking-tighter">NAD <span class="text-amber-500">STUDIO</span></h3>
+                <button id="close-login-btn" class="text-zinc-500 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-zinc-500 text-sm mb-6">Secure access. Please verify your credentials.</p>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Email</label>
+                    <input type="email" id="login-email" required class="w-full bg-black border border-zinc-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Password</label>
+                    <input type="password" id="login-password" required class="w-full bg-black border border-zinc-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors">
+                </div>
+                <button type="submit" class="w-full bg-amber-500 text-black font-bold uppercase tracking-widest py-3 rounded-lg hover:bg-amber-400 transition-colors mt-4">Access Studio</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- STUDIO / ADMIN MODAL -->
+    <div id="studio-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" id="studio-backdrop"></div>
+        <div class="relative z-10 w-full max-w-5xl max-h-[90vh] flex flex-col bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl modal-enter overflow-hidden" id="studio-box">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-6 md:px-8 border-b border-zinc-900 bg-black/50">
+                <h3 class="text-2xl font-bold text-white tracking-tighter">NAD <span class="text-amber-500">STUDIO</span> <span class="text-xs text-zinc-500 font-normal tracking-widest ml-2 hidden md:inline">| Content Management</span></h3>
+                <div class="flex items-center space-x-4">
+                    <button id="logout-btn" class="text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-red-500 transition-colors">Logout</button>
+                    <button id="close-studio-btn" class="text-zinc-500 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+            
+            <!-- Body -->
+            <div class="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Add Project Form -->
+                <div class="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-zinc-800 pb-8 lg:pb-0 lg:pr-8">
+                    <h4 class="text-lg font-bold text-white mb-6 uppercase tracking-wider">Add New Project</h4>
+                    <form id="add-project-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Title</label>
+                            <input type="text" id="proj-title" required class="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-white text-sm focus:border-amber-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Project Link / Drive Link</label>
+                            <input type="url" id="proj-link" required class="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-white text-sm focus:border-amber-500 outline-none" placeholder="https://...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Thumbnail Image Link</label>
+                            <input type="url" id="proj-thumb" required class="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-white text-sm focus:border-amber-500 outline-none" placeholder="Image URL">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Content Type</label>
+                            <select id="proj-type" required class="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-white text-sm focus:border-amber-500 outline-none appearance-none">
+                                <option value="VIDEO">VIDEO</option>
+                                <option value="AI FILM">AI FILM</option>
+                                <option value="WEBSITE">WEBSITE</option>
+                                <option value="GRAPHIC">GRAPHIC</option>
+                                <option value="GRAPHIC AND WEBSITE">GRAPHIC AND WEBSITE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Description</label>
+                            <textarea id="proj-desc" required rows="3" class="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-white text-sm focus:border-amber-500 outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full flex justify-center items-center space-x-2 bg-amber-500 text-black font-bold uppercase tracking-widest py-3 rounded-lg hover:bg-amber-400 transition-colors mt-2">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Add Project</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Manage Existing -->
+                <div class="lg:col-span-2 flex flex-col">
+                    <h4 class="text-lg font-bold text-white mb-6 uppercase tracking-wider">Manage Projects</h4>
+                    <div id="studio-projects-list" class="flex-1 space-y-3 overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        // --- FIREBASE INTEGRATION ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // User's Provided Firebase Configuration
+        const userFirebaseConfig = {
+            apiKey: "AIzaSyBAozVwwX0FfwLYsE7W7i9HvmrAO4hiB9s",
+            authDomain: "aboutnadjibu.firebaseapp.com",
+            projectId: "aboutnadjibu",
+            storageBucket: "aboutnadjibu.firebasestorage.app",
+            messagingSenderId: "39743608259",
+            appId: "1:39743608259:web:ad1771d1ba6c66b98f9976",
+            measurementId: "G-6XMY2J9BBV"
+        };
+
+        // Use environment config to avoid permission issues in Canvas, fallback to user config
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'nad-portfolio-default';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Secure Path for data storage
+        const projectsCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'nad_projects');
+
+        // --- INITIAL DATA (From DOCX File) ---
+        const initialProjectsData = [
+            { title: "THE HITMAN", type: "AI FILM", link: "https://drive.google.com/file/d/1xCNMrbmwXdsLO8ugAQEgas02wGOX83qc/view", thumbnail: "https://images.unsplash.com/photo-1595769816263-9b910be24d5f?auto=format&fit=crop&q=80&w=800", description: "This is the AI film, that shows a serial killer having a mission to execute the high level profile." },
+            { title: "THE FOREST", type: "VIDEO", link: "https://drive.google.com/file/u/0/d/1amY76WAMMigG6CDldjN1F1WLHGFAWLDA/view", thumbnail: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=800", description: "Created by Nadjibullah UWABATO Using free pexel footages and Editing skills and the Colour Grading. This Project is a cinematic short video project that emphasizes on the Importance and Beauty of Forests." },
+            { title: "GET BETTER PODCAST", type: "WEBSITE", link: "https://getbetterpodcast.web.app/", thumbnail: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800", description: "This is the website that is capable to share and sell the podcasts from the of the Rwandan Podcast named GET BETTER PODCAST." },
+            { title: "NAD CLASS", type: "WEBSITE", link: "https://nadclasses.netlify.app/", thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800", description: "This is the website that is capable of providing the online course for the multimedia lessons, For instance the AI Filmmaking , and Colour correction and Grading." },
+            { title: "NAD MARKET", type: "WEBSITE", link: "https://nadmarket.netlify.app/", thumbnail: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800", description: "This is the website that is capable of Selling and distributing Art works, Films, Books, and Music." },
+            { title: "ESOMERO HUB", type: "WEBSITE", link: "https://esomerohub.web.app/", thumbnail: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=800", description: "This is the website that provides the online learning program for the KSP Rwanda, Training centre, that provides the assessment system, Handouts, and Performance reports and Dashboards." },
+            { title: "ADINETTE RESTAURANT", type: "WEBSITE", link: "https://adinetteresto.netlify.app/", thumbnail: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800", description: "This is the Website of the Adinette Restaurant, it is capable of showing the menu online, handling the Booking system, Reservation system, and Ordering Delivery system." },
+            { title: "EXTREME STUDIO", type: "WEBSITE", link: "https://extremestudios.netlify.app/", thumbnail: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800", description: "This is the website of EXTREME STUDIOS, that shows the primary information about this Studio, and Board Members." },
+            { title: "BK KREATIVE", type: "GRAPHIC AND WEBSITE", link: "https://bkreativelogo.netlify.app/", thumbnail: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800", description: "This was a website that was created to present the Graphics (logo) that i developed in the BK KREATIVE LOGO Competition." }
+        ];
+
+        let projectsState = [];
+        let currentCategory = 'ALL';
+
+        // Initialize Icons & UI elements
+        lucide.createIcons();
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Toast Notification System
+        window.showToast = function(message, type = "success") {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `fixed bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full text-sm font-semibold z-[150] transition-all duration-300 ${type === 'error' ? 'bg-red-500 text-white' : 'bg-amber-500 text-black'}`;
+            toast.style.opacity = "1";
+            toast.style.transform = "translate(-50%, 0)";
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translate(-50%, 20px)";
+            }, 3000);
+        }
+
+        // --- FETCH & SYNC PROJECTS ---
+        const initFirebaseSetup = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Authentication failed:", err);
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) return; // Only fetch data when authenticated
+
+            onSnapshot(projectsCollectionRef, (snapshot) => {
+                const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // If DB is empty, use initial DOCX data to populate the view.
+                if (fetchedData.length === 0) {
+                    // Attach random pseudo-ids so they render correctly
+                    projectsState = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p }));
+                } else {
+                    // Sort by timestamp
+                    projectsState = fetchedData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                }
+                renderProjects();
+                renderAdminProjects();
+            }, (error) => {
+                console.error("Firestore read error, falling back to local data:", error);
+                // Fallback gracefully to show the static data so the portfolio never breaks
+                projectsState = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p }));
+                renderProjects();
+                renderAdminProjects();
+            });
+        });
+
+        // Start Auth Flow
+        initFirebaseSetup();
+
+        // --- RENDER PORTFOLIO ---
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+            
+            // Filter logic
+            const filtered = projectsState.filter(p => {
+                if (currentCategory === 'ALL') return true;
+                const pt = p.type.toUpperCase();
+                if (currentCategory === 'VIDEO') return pt.includes('VIDEO') || pt.includes('FILM');
+                if (currentCategory === 'WEBSITE') return pt.includes('WEBSITE') || pt.includes('GRAPHIC');
+                return true;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center text-zinc-500 py-12">No projects found in this category.</div>`;
+                return;
+            }
+
+            filtered.forEach((project, index) => {
+                const card = document.createElement('div');
+                card.className = `group flex flex-col bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-amber-500/50 transition-all duration-500 cursor-pointer reveal active`;
+                card.style.animationDelay = `${index * 100}ms`;
+                
+                card.innerHTML = `
+                    <div class="relative aspect-video bg-black w-full overflow-hidden">
+                        <img src="${project.thumbnail}" alt="${project.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <!-- Play/View Button Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-all">
+                            <div class="bg-amber-500/90 w-16 h-16 rounded-full flex items-center justify-center text-black transform scale-90 group-hover:scale-110 shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-all duration-300">
+                                <i data-lucide="${(project.type.includes('VIDEO') || project.type.includes('FILM')) ? 'play' : 'external-link'}" class="w-6 h-6 ${(project.type.includes('VIDEO') || project.type.includes('FILM')) ? 'ml-1 fill-current' : ''}"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="mb-4">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-1">${project.title}</h3>
+                            <p class="text-amber-500 text-xs font-semibold tracking-wider uppercase">${project.type}</p>
+                        </div>
+                        <p class="text-zinc-400 text-sm leading-relaxed line-clamp-3 mb-4">${project.description}</p>
+                    </div>
+                `;
+                
+                // Add click listener to open Preview
+                card.addEventListener('click', () => openPreview(project));
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Category Filter Buttons Setup
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active styles
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-amber-500', 'text-black', 'border-amber-500');
+                    b.classList.add('border-zinc-700', 'text-white');
+                });
+                e.target.classList.add('bg-amber-500', 'text-black', 'border-amber-500');
+                e.target.classList.remove('border-zinc-700', 'text-white');
+                
+                currentCategory = e.target.getAttribute('data-category');
+                renderProjects();
+            });
+        });
+
+        // --- CINEMATIC PREVIEW MODAL ---
+        const previewModal = document.getElementById('preview-modal');
+        const previewIframe = document.getElementById('preview-iframe');
+        const previewTitle = document.getElementById('preview-title');
+        const previewLinkBtn = document.getElementById('preview-external-link');
+
+        function formatLinkForEmbed(url) {
+            // Convert Google Drive view links to preview mode for iframes
+            if (url.includes('drive.google.com') && url.includes('/view')) {
+                return url.replace(/\/view.*$/, '/preview');
+            }
+            return url;
+        }
+
+        function openPreview(project) {
+            const embedUrl = formatLinkForEmbed(project.link);
+            previewTitle.textContent = project.title;
+            previewIframe.src = embedUrl;
+            previewLinkBtn.href = project.link;
+            
+            previewModal.classList.remove('hidden');
+            setTimeout(() => {
+                previewModal.querySelector('.relative').classList.add('modal-enter-active');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // prevent background scrolling
+        }
+
+        function closePreview() {
+            previewModal.querySelector('.relative').classList.remove('modal-enter-active');
+            previewModal.querySelector('.relative').classList.add('modal-exit-active');
+            setTimeout(() => {
+                previewModal.classList.add('hidden');
+                previewModal.querySelector('.relative').classList.remove('modal-exit-active');
+                previewIframe.src = ''; // stop playback
+                document.body.style.overflow = 'auto';
+            }, 200);
+        }
+
+        document.getElementById('close-preview-btn').addEventListener('click', closePreview);
+        document.getElementById('preview-backdrop').addEventListener('click', closePreview);
+
+
+        // --- LOGIN & STUDIO LOGIC ---
+        const authEmail = "inkhub250@gmail.com";
+        const authPass = "https://aboutnad.netlify.app/";
+        
+        const loginModal = document.getElementById('login-modal');
+        const studioModal = document.getElementById('studio-modal');
+
+        document.getElementById('open-studio-btn').addEventListener('click', () => {
+            if (sessionStorage.getItem('nad_admin_auth') === 'true') {
+                openStudio();
+            } else {
+                loginModal.classList.remove('hidden');
+                setTimeout(() => document.getElementById('login-box').classList.add('modal-enter-active'), 10);
+            }
+        });
+
+        document.getElementById('close-login-btn').addEventListener('click', () => {
+            document.getElementById('login-box').classList.remove('modal-enter-active');
+            setTimeout(() => loginModal.classList.add('hidden'), 200);
+        });
+        document.getElementById('login-backdrop').addEventListener('click', () => document.getElementById('close-login-btn').click());
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+
+            if (email === authEmail && pass === authPass) {
+                sessionStorage.setItem('nad_admin_auth', 'true');
+                showToast("Access Granted");
+                document.getElementById('close-login-btn').click();
+                setTimeout(openStudio, 300);
+                e.target.reset();
+            } else {
+                showToast("Invalid Credentials", "error");
+            }
+        });
+
+        // Studio UI Logic
+        function openStudio() {
+            studioModal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('studio-box').classList.add('modal-enter-active'), 10);
+            document.body.style.overflow = 'hidden';
+            renderAdminProjects();
+        }
+
+        document.getElementById('close-studio-btn').addEventListener('click', () => {
+            document.getElementById('studio-box').classList.remove('modal-enter-active');
+            setTimeout(() => {
+                studioModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 200);
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            sessionStorage.removeItem('nad_admin_auth');
+            showToast("Logged out successfully");
+            document.getElementById('close-studio-btn').click();
+        });
+
+        // Render projects in Admin Panel
+        window.renderAdminProjects = function() {
+            const list = document.getElementById('studio-projects-list');
+            list.innerHTML = '';
+            
+            if(projectsState.length === 0) {
+                list.innerHTML = `<p class="text-zinc-500 text-sm">No projects exist yet.</p>`;
+                return;
+            }
+
+            projectsState.forEach(project => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-xl";
+                item.innerHTML = `
+                    <div class="flex items-center space-x-4 overflow-hidden">
+                        <img src="${project.thumbnail}" class="w-16 h-12 object-cover rounded-md bg-black shrink-0">
+                        <div class="truncate pr-4">
+                            <h5 class="text-white font-bold text-sm truncate">${project.title}</h5>
+                            <p class="text-zinc-500 text-xs mt-0.5">${project.type}</p>
+                        </div>
+                    </div>
+                    <button class="delete-btn p-2 hover:bg-red-500/10 hover:text-red-500 text-zinc-500 rounded-lg transition-colors shrink-0" data-id="${project.id}">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+
+            // Attach delete listeners
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    if (id.startsWith('default-')) {
+                        showToast("Cannot delete default demo data until you add your own to Firestore.", "error");
+                        return;
+                    }
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'nad_projects', id));
+                        showToast("Project removed");
+                    } catch (err) {
+                        console.error(err);
+                        showToast("Failed to remove. Check database rules.", "error");
+                    }
+                });
+            });
+        }
+
+        // Add Project Logic
+        document.getElementById('add-project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> <span>Saving...</span>`;
+            lucide.createIcons();
+
+            const newProject = {
+                title: document.getElementById('proj-title').value,
+                link: document.getElementById('proj-link').value,
+                thumbnail: document.getElementById('proj-thumb').value,
+                type: document.getElementById('proj-type').value,
+                description: document.getElementById('proj-desc').value,
+                timestamp: Date.now()
+            };
+
+            try {
+                await addDoc(projectsCollectionRef, newProject);
+                showToast("Project added successfully!");
+                e.target.reset();
+            } catch (err) {
+                console.error("Firestore error:", err);
+                showToast("Failed to save to database. Adding locally for preview.", "error");
+                // Fallback to local array just so it works visually if rules are locked
+                newProject.id = `local-${Date.now()}`;
+                projectsState.unshift(newProject);
+                renderProjects();
+                renderAdminProjects();
+                e.target.reset();
+            } finally {
+                btn.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i> <span>Add Project</span>`;
+                lucide.createIcons();
+            }
+        });
+
+        // --- SCROLL ANIMATIONS ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
 
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('bg-black/90', 'backdrop-blur-md', 'py-4');
+                navbar.classList.add('bg-black/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-zinc-900');
                 navbar.classList.remove('bg-transparent', 'py-6');
             } else {
                 navbar.classList.add('bg-transparent', 'py-6');
-                navbar.classList.remove('bg-black/90', 'backdrop-blur-md', 'py-4');
+                navbar.classList.remove('bg-black/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-zinc-900');
             }
         });
     </script>
