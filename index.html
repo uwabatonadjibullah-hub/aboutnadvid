@@ -452,20 +452,19 @@
             onSnapshot(projectsCollectionRef, (snapshot) => {
                 const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                // If DB is empty, use initial DOCX data to populate the view.
-                if (fetchedData.length === 0) {
-                    // Attach random pseudo-ids so they render correctly
-                    projectsState = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p }));
-                } else {
-                    // Sort by timestamp
-                    projectsState = fetchedData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                }
+                // Prepare the default projects with IDs and a base timestamp
+                const defaultProjects = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p, timestamp: 0 }));
+
+                // Combine the projects from your database with the hardcoded default ones
+                // and sort them so the newest ones (from the database) appear first
+                projectsState = [...fetchedData, ...defaultProjects].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                
                 renderProjects();
                 renderAdminProjects();
             }, (error) => {
                 console.error("Firestore read error, falling back to local data:", error);
                 // Fallback gracefully to show the static data so the portfolio never breaks
-                projectsState = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p }));
+                projectsState = initialProjectsData.map((p, i) => ({ id: `default-${i}`, ...p, timestamp: 0 }));
                 renderProjects();
                 renderAdminProjects();
             });
